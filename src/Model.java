@@ -6,6 +6,7 @@ public class Model extends Observable {
 	
 	private ArrayList<File> imageFiles;
 	private boolean isGrid = false;
+	private int stars = 0;
 
 	public ArrayList<File> getImageFiles() {
 		return imageFiles;
@@ -23,5 +24,15 @@ public class Model extends Observable {
 
 	public void setGrid(boolean isGrid) {
 		this.isGrid = isGrid;
+	}
+
+	public int getStars() {
+		return stars;
+	}
+
+	public void setStars(int stars) {
+		this.stars = stars;
+		setChanged();
+		notifyObservers("stars");
 	}
 }
