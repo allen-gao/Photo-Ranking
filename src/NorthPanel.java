@@ -44,7 +44,13 @@ public class NorthPanel extends JPanel implements Observer {
 				int returnVal = chooser.showOpenDialog(chooser);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
 					ArrayList<File> files = new ArrayList<File>(Arrays.asList(chooser.getSelectedFiles()));
-					model.setImageFiles(files);
+					if (model.getImageFiles() != null) {
+						model.getImageFiles().addAll(files);
+						model.setImageFiles(model.getImageFiles()); // to trigger observer
+					}
+					else {
+						model.setImageFiles(files);
+					}
 				}
 			}
 		});
