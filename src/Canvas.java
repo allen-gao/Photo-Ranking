@@ -33,8 +33,10 @@ public class Canvas extends JPanel implements Observer {
 		for (int i = 0; i < files.size(); i++) {
 			Image image;
 			try {
-				image = ImageIO.read(files.get(0));
-				this.add(new JButton(new ImageIcon(image)));
+				image = ImageIO.read(files.get(i));
+				JButton imageButton = new JButton(new ImageIcon(image));
+				this.add(imageButton);
+				validate();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
