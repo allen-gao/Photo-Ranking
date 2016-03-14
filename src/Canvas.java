@@ -41,7 +41,11 @@ public class Canvas extends JPanel implements Observer {
 		this.removeAll();
 		ArrayList<ImageObject> imageObjects = model.getImageFiles();
 		for (int i = 0; i < imageObjects.size(); i++) {
+			System.out.println("gdfgdf");
 			ImageObject imageObject = imageObjects.get(i);
+			if (imageObject.getRating() < model.getStars()) {
+				continue;
+			}
 			BufferedImage image;
 			try {
 				JPanel panel = new JPanel();
@@ -65,13 +69,106 @@ public class Canvas extends JPanel implements Observer {
 				panel.add(nameLabel);
 				JLabel dateLabel = new JLabel(new Date(imageObject.getFile().lastModified()).toString());
 				panel.add(dateLabel);
+				ArrayList<JButton> starButtonArray = new ArrayList<JButton>();
+				JButton star1 = new JButton();
+				JButton star2 = new JButton();
+				JButton star3 = new JButton();
+				JButton star4 = new JButton();
+				JButton star5 = new JButton();
+				starButtonArray.add(star1);
+				starButtonArray.add(star2);
+				starButtonArray.add(star3);
+				starButtonArray.add(star4);
+				starButtonArray.add(star5);
+				star1.setPreferredSize(new Dimension(25, 25));
+				star1.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (imageObject.getRating() == 1) {
+							imageObject.setRating(0);
+						}
+						else {
+							imageObject.setRating(1);
+						}
+						model.setImageFiles(model.getImageFiles());
+					}
+				});
+				panel.add(star1);
+				star2.setPreferredSize(new Dimension(25, 25));
+				star2.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (imageObject.getRating() == 2) {
+							imageObject.setRating(0);
+						}
+						else {
+							imageObject.setRating(2);
+						}
+						model.setImageFiles(model.getImageFiles());
+					}
+				});
+				panel.add(star2);
+				star3.setPreferredSize(new Dimension(25, 25));
+				star3.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (imageObject.getRating() == 3) {
+							imageObject.setRating(0);
+						}
+						else {
+							imageObject.setRating(3);
+						}
+						model.setImageFiles(model.getImageFiles());
+					}
+				});
+				panel.add(star3);
+				star4.setPreferredSize(new Dimension(25, 25));
+				star4.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (imageObject.getRating() == 4) {
+							imageObject.setRating(0);
+						}
+						else {
+							imageObject.setRating(4);
+						}
+						model.setImageFiles(model.getImageFiles());
+					}
+				});
+				panel.add(star4);
+				star5.setPreferredSize(new Dimension(25, 25));
+				star5.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if (imageObject.getRating() == 5) {
+							imageObject.setRating(0);
+						}
+						else {
+							imageObject.setRating(5);
+						}
+						model.setImageFiles(model.getImageFiles());
+					}
+				});
+				panel.add(star5);
+				try {
+					Image emptyStar = ImageIO.read(new File("src/images/star-empty.png"));
+					Image fullStar = ImageIO.read(new File("src/images/star-full.png"));
+					int stars = imageObject.getRating();
+					for (int j = 0; j < starButtonArray.size(); j++) {
+						if (stars >= j+1) {
+							starButtonArray.get(j).setIcon(new ImageIcon(fullStar));
+						}
+						else {
+							starButtonArray.get(j).setIcon(new ImageIcon(emptyStar));
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 				panel.setPreferredSize(new Dimension(this.getWidth() / 3, 300));
 				this.add(panel);
-				validate();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		validate();
+		repaint();
 	}
 	
 	public void resizeImages() {
@@ -84,7 +181,7 @@ public class Canvas extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg == "imageFiles") {
+		if (arg == "imageFiles" || arg == "stars") {
 			loadImages();
 		}
 	}
