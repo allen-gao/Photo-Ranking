@@ -39,32 +39,31 @@ public class Canvas extends JPanel implements Observer {
 	
 	public void loadImages() {
 		this.removeAll();
-		ArrayList<File> files = model.getImageFiles();
-		System.out.println(files.size());
-		for (int i = 0; i < files.size(); i++) {
-			File file = files.get(i);
+		ArrayList<ImageObject> imageObjects = model.getImageFiles();
+		for (int i = 0; i < imageObjects.size(); i++) {
+			ImageObject imageObject = imageObjects.get(i);
 			BufferedImage image;
 			try {
 				JPanel panel = new JPanel();
-				image = ImageIO.read(file);
+				image = ImageIO.read(imageObject.getFile());
 				Image scaledImage = image.getScaledInstance(this.getWidth() / 3, 150, 0);
 				JButton imageButton = new JButton(new ImageIcon(scaledImage));
 				imageButton.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						JFrame imageWindow = new JFrame(file.getName());
+						JFrame imageWindow = new JFrame(imageObject.getFile().getName());
 						imageWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 						imageWindow.setVisible(true);
 						JPanel imagePanel = new JPanel();
-						imagePanel.add(new JLabel(new ImageIcon(file.getAbsolutePath())));
+						imagePanel.add(new JLabel(new ImageIcon(imageObject.getFile().getAbsolutePath())));
 						imageWindow.setSize(new Dimension(image.getWidth(), image.getHeight()));
 						imageWindow.setMaximumSize(new Dimension(800, 600));
 						imageWindow.add(imagePanel);
 					}
 				});
 				panel.add(imageButton);
-				JLabel nameLabel = new JLabel(file.getName());
+				JLabel nameLabel = new JLabel(imageObject.getFile().getName());
 				panel.add(nameLabel);
-				JLabel dateLabel = new JLabel(new Date(file.lastModified()).toString());
+				JLabel dateLabel = new JLabel(new Date(imageObject.getFile().lastModified()).toString());
 				panel.add(dateLabel);
 				panel.setPreferredSize(new Dimension(this.getWidth() / 3, 300));
 				this.add(panel);

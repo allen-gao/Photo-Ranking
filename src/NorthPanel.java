@@ -46,13 +46,18 @@ public class NorthPanel extends JPanel implements Observer {
 				
 				int returnVal = chooser.showOpenDialog(chooser);
 				if (returnVal == JFileChooser.APPROVE_OPTION) {
-					ArrayList<File> files = new ArrayList<File>(Arrays.asList(chooser.getSelectedFiles()));
+					ArrayList<File> fileArray = new ArrayList<File>(Arrays.asList(chooser.getSelectedFiles()));
+					ArrayList<ImageObject> imageObjects = new ArrayList<ImageObject>();
+					for (int i = 0; i < fileArray.size(); i++) {
+						ImageObject imageObject = new ImageObject(fileArray.get(i), 0);
+						imageObjects.add(imageObject);
+					}
 					if (model.getImageFiles() != null) {
-						model.getImageFiles().addAll(files);
+						model.getImageFiles().addAll(imageObjects);
 						model.setImageFiles(model.getImageFiles()); // to trigger observer
 					}
 					else {
-						model.setImageFiles(files);
+						model.setImageFiles(imageObjects);
 					}
 				}
 			}
@@ -150,7 +155,7 @@ public class NorthPanel extends JPanel implements Observer {
 			Image emptyStar = ImageIO.read(new File("src/images/star-empty.png"));
 			Image fullStar = ImageIO.read(new File("src/images/star-full.png"));
 			int stars = model.getStars();
-			for (int i = 0; i < starButtonArray.size(); i++) { // start at 1 to sync with stars count in model
+			for (int i = 0; i < starButtonArray.size(); i++) {
 				if (stars >= i+1) {
 					starButtonArray.get(i).setIcon(new ImageIcon(fullStar));
 				}

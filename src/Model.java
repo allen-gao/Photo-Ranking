@@ -4,15 +4,15 @@ import java.util.Observable;
 
 public class Model extends Observable {
 	
-	private ArrayList<File> imageFiles;
+	private ArrayList<ImageObject> imageFiles;
 	private boolean isGrid = false;
 	private int stars = 0;
 
-	public ArrayList<File> getImageFiles() {
+	public ArrayList<ImageObject> getImageFiles() {
 		return imageFiles;
 	}
 
-	public void setImageFiles(ArrayList<File> imageFiles) {
+	public void setImageFiles(ArrayList<ImageObject> imageFiles) {
 		this.imageFiles = imageFiles;
 		setChanged();
 		notifyObservers("imageFiles");
