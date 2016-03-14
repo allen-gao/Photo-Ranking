@@ -148,6 +148,38 @@ public class NorthPanel extends JPanel implements Observer {
 			}
 		});
 		this.add(star5);
+		
+		JButton gridButton = new JButton();
+		try {
+			Image gridIcon = ImageIO.read(new File("src/images/grid-layout.png"));
+			gridIcon = gridIcon.getScaledInstance(25, 25, 0);
+			gridButton.setIcon(new ImageIcon(gridIcon));
+			gridButton.setPreferredSize(new Dimension(25, 25));
+		} catch (IOException e) {
+			gridButton.setText("Grid");
+		}
+		gridButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				model.setGrid(true);
+			}
+		});
+		this.add(gridButton);
+		
+		JButton listButton = new JButton();
+		try {
+			Image listIcon = ImageIO.read(new File("src/images/list-layout.png"));
+			listIcon = listIcon.getScaledInstance(25, 25, 0);
+			listButton.setIcon(new ImageIcon(listIcon));
+			listButton.setPreferredSize(new Dimension(25, 25));
+		} catch (IOException e) {
+			listButton.setText("List");
+		}
+		listButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				model.setGrid(false);
+			}
+		});
+		this.add(listButton);
 	}
 	
 	public void setStars() {

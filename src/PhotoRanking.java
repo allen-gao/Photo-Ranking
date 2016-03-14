@@ -29,7 +29,7 @@ public class PhotoRanking extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				PhotoRanking frame = new PhotoRanking(); // main
-				model = new Model(); // model
+				model = new Model(frame); // model
 				gamePanel = new GamePanel(model); // view + controller
 				frame.setContentPane(gamePanel);
 				frame.setMinimumSize(new Dimension(minWidth, minHeight));

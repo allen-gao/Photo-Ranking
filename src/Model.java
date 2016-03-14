@@ -4,9 +4,14 @@ import java.util.Observable;
 public class Model extends Observable {
 	
 	private ArrayList<ImageObject> imageFiles;
-	private boolean isGrid = false;
+	private boolean isGrid = true;
 	private int stars = 0;
 	private Canvas canvas;
+	private PhotoRanking frame;
+	
+	public Model(PhotoRanking frame) {
+		this.frame = frame;
+	}
 	
 	public ArrayList<ImageObject> getImageFiles() {
 		return imageFiles;
@@ -24,6 +29,8 @@ public class Model extends Observable {
 
 	public void setGrid(boolean isGrid) {
 		this.isGrid = isGrid;
+		setChanged();
+		notifyObservers("grid");
 	}
 
 	public int getStars() {
@@ -42,6 +49,14 @@ public class Model extends Observable {
 
 	public void setCanvas(Canvas canvas) {
 		this.canvas = canvas;
+	}
+
+	public PhotoRanking getFrame() {
+		return frame;
+	}
+
+	public void setFrame(PhotoRanking frame) {
+		this.frame = frame;
 	}
 
 	public void resized(int width, int height) {
