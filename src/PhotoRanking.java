@@ -35,7 +35,7 @@ public class PhotoRanking extends JFrame {
 				frame.setMinimumSize(new Dimension(minWidth, minHeight));
 				frame.addComponentListener(new ComponentAdapter() {
 					public void componentResized(ComponentEvent e) {
-						// resizer
+						model.resized(frame.getWidth(), frame.getHeight());
 					}
 				});
 			}

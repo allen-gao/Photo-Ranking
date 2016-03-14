@@ -25,6 +25,7 @@ public class Canvas extends JPanel implements Observer {
 	
 	private Model model;
 	private JScrollPane scrollPane;
+	private ArrayList<JPanel> panelArray;
 	
 	public Canvas(Model model) {
 		this.model = model;
@@ -40,17 +41,20 @@ public class Canvas extends JPanel implements Observer {
 	public void loadImages() {
 		this.removeAll();
 		ArrayList<ImageObject> imageObjects = model.getImageFiles();
+		if (imageObjects == null) {
+			return;
+		}
 		for (int i = 0; i < imageObjects.size(); i++) {
-			System.out.println("gdfgdf");
 			ImageObject imageObject = imageObjects.get(i);
 			if (imageObject.getRating() < model.getStars()) {
 				continue;
 			}
-			BufferedImage image;
 			try {
 				JPanel panel = new JPanel();
-				image = ImageIO.read(imageObject.getFile());
-				Image scaledImage = image.getScaledInstance(this.getWidth() / 3, 150, 0);
+				BufferedImage image = ImageIO.read(imageObject.getFile());
+				Image scaledImage = image.getScaledInstance(180, 150, 0);
+				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, 250));
+				
 				JButton imageButton = new JButton(new ImageIcon(scaledImage));
 				imageButton.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -160,9 +164,11 @@ public class Canvas extends JPanel implements Observer {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				panel.setPreferredSize(new Dimension(this.getWidth() / 3, 300));
 				this.add(panel);
+				if (panelArray == null) {
+					panelArray = new ArrayList<JPanel>();
+				}
+				panelArray.add(panel);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -171,8 +177,13 @@ public class Canvas extends JPanel implements Observer {
 		repaint();
 	}
 	
-	public void resizeImages() {
-		
+	public void resizePanels() {
+		if (panelArray != null) {
+			for (int i = 0; i < panelArray.size(); i++) {
+				JPanel panel = panelArray.get(i);
+				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, 250));
+			}
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -183,6 +194,9 @@ public class Canvas extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg == "imageFiles" || arg == "stars") {
 			loadImages();
+		}
+		if (arg == "resized") {
+			resizePanels();
 		}
 	}
 }

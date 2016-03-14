@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -34,5 +33,10 @@ public class Model extends Observable {
 		this.stars = stars;
 		setChanged();
 		notifyObservers("stars");
+	}
+	
+	public void resized(int width, int height) {
+		setChanged();
+		notifyObservers("resized");
 	}
 }

@@ -20,7 +20,4 @@ public class GamePanel extends JPanel {
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
-	
-	public void resized() {
-	}
 }
