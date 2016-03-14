@@ -29,7 +29,7 @@ public class NorthPanel extends JPanel implements Observer {
 		this.model = model;
 		model.addObserver(this);
 		this.setBackground(Color.WHITE);
-		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.setLayout(new BorderLayout());
 		
 		JButton openButton = new JButton();
 		try {
@@ -62,7 +62,7 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(openButton);
+		this.add(openButton, BorderLayout.WEST);
 		
 		JLabel ratingLabel = new JLabel("Filter by:");
 		this.add(ratingLabel);
@@ -78,6 +78,7 @@ public class NorthPanel extends JPanel implements Observer {
 		starButtonArray.add(star3);
 		starButtonArray.add(star4);
 		starButtonArray.add(star5);
+		JPanel starPanel = new JPanel();
 		try {
 			Image emptyStar = ImageIO.read(new File("src/images/star-empty.png"));
 			star1.setIcon(new ImageIcon(emptyStar));
@@ -99,7 +100,7 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(star1);
+		starPanel.add(star1);
 		star2.setPreferredSize(new Dimension(25, 25));
 		star2.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -111,7 +112,7 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(star2);
+		starPanel.add(star2);
 		star3.setPreferredSize(new Dimension(25, 25));
 		star3.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -123,7 +124,7 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(star3);
+		starPanel.add(star3);
 		star4.setPreferredSize(new Dimension(25, 25));
 		star4.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -135,7 +136,7 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(star4);
+		starPanel.add(star4);
 		star5.setPreferredSize(new Dimension(25, 25));
 		star5.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -147,8 +148,10 @@ public class NorthPanel extends JPanel implements Observer {
 				}
 			}
 		});
-		this.add(star5);
+		starPanel.add(star5);
+		this.add(starPanel, BorderLayout.CENTER);
 		
+		JPanel layoutPanel = new JPanel();
 		JButton gridButton = new JButton();
 		try {
 			Image gridIcon = ImageIO.read(new File("src/images/grid-layout.png"));
@@ -163,7 +166,7 @@ public class NorthPanel extends JPanel implements Observer {
 				model.setGrid(true);
 			}
 		});
-		this.add(gridButton);
+		layoutPanel.add(gridButton);
 		
 		JButton listButton = new JButton();
 		try {
@@ -179,7 +182,8 @@ public class NorthPanel extends JPanel implements Observer {
 				model.setGrid(false);
 			}
 		});
-		this.add(listButton);
+		layoutPanel.add(listButton);
+		this.add(layoutPanel, BorderLayout.EAST);
 	}
 	
 	public void setStars() {

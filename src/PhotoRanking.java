@@ -16,7 +16,7 @@ public class PhotoRanking extends JFrame {
 	
 	private static int width = 800;
 	private static int height = 600;
-	private static int minWidth = 400;
+	private static int minWidth = 450;
 	private static int minHeight = 400;
 	private static Model model;
 	private static GamePanel gamePanel;
