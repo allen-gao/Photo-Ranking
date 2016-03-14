@@ -6,7 +6,8 @@ public class Model extends Observable {
 	private ArrayList<ImageObject> imageFiles;
 	private boolean isGrid = false;
 	private int stars = 0;
-
+	private Canvas canvas;
+	
 	public ArrayList<ImageObject> getImageFiles() {
 		return imageFiles;
 	}
@@ -35,8 +36,15 @@ public class Model extends Observable {
 		notifyObservers("stars");
 	}
 	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	public void setCanvas(Canvas canvas) {
+		this.canvas = canvas;
+	}
+
 	public void resized(int width, int height) {
-		setChanged();
-		notifyObservers("resized");
+		canvas.resizePanels(width, height);
 	}
 }

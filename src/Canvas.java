@@ -27,8 +27,13 @@ public class Canvas extends JPanel implements Observer {
 	private JScrollPane scrollPane;
 	private ArrayList<JPanel> panelArray;
 	
+	private int iconWidth = 180;
+	private int iconHeight = 150;
+	private int panelHeight = 250;
+	
 	public Canvas(Model model) {
 		this.model = model;
+		model.setCanvas(this);
 		model.addObserver(this);
 		this.setBackground(Color.WHITE);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -52,8 +57,8 @@ public class Canvas extends JPanel implements Observer {
 			try {
 				JPanel panel = new JPanel();
 				BufferedImage image = ImageIO.read(imageObject.getFile());
-				Image scaledImage = image.getScaledInstance(180, 150, 0);
-				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, 250));
+				Image scaledImage = image.getScaledInstance(iconWidth, iconHeight, 0);
+				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, panelHeight));
 				
 				JButton imageButton = new JButton(new ImageIcon(scaledImage));
 				imageButton.addMouseListener(new MouseAdapter() {
@@ -177,12 +182,30 @@ public class Canvas extends JPanel implements Observer {
 		repaint();
 	}
 	
-	public void resizePanels() {
+	public void resizePanels(int width, int height) {
+		width -= 30;
 		if (panelArray != null) {
-			for (int i = 0; i < panelArray.size(); i++) {
-				JPanel panel = panelArray.get(i);
-				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, 250));
+			int cols;
+			if (width >= iconWidth * 3 + 150) {
+				cols = 3;
 			}
+			else if (width >= iconWidth * 2 + 100) {
+				cols = 2;
+			}
+			else {
+				cols = 1;
+			}
+			System.out.println(cols);
+			int rows = panelArray.size() / cols;
+			if (panelArray != null) {
+				for (int i = 0; i < panelArray.size(); i++) {
+					JPanel panel = panelArray.get(i);
+					panel.setPreferredSize(new Dimension(width/cols - 5, panelHeight));
+				}
+			}
+			this.setPreferredSize(new Dimension(width, rows * panelHeight + rows * 5));
+			scrollPane.revalidate();
+			validate();
 		}
 	}
 	
@@ -194,9 +217,6 @@ public class Canvas extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg == "imageFiles" || arg == "stars") {
 			loadImages();
-		}
-		if (arg == "resized") {
-			resizePanels();
 		}
 	}
 }

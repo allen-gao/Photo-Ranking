@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
 
 public class PhotoRanking extends JFrame {
 	
-	private static int width = 600;
+	private static int width = 800;
 	private static int height = 600;
 	private static int minWidth = 400;
 	private static int minHeight = 400;

@@ -14,7 +14,9 @@ public class GamePanel extends JPanel {
 		northPanel = new NorthPanel(model);
 		canvas = new Canvas(model);
 		
-		JScrollPane scrollPane = new JScrollPane(canvas);
+		JScrollPane scrollPane = new JScrollPane(canvas,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		canvas.setScrollPane(scrollPane);
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);
