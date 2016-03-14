@@ -1,4 +1,6 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -14,6 +16,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -58,8 +61,8 @@ public class Canvas extends JPanel implements Observer {
 				JPanel panel = new JPanel();
 				BufferedImage image = ImageIO.read(imageObject.getFile());
 				Image scaledImage = image.getScaledInstance(iconWidth, iconHeight, 0);
+				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 				panel.setPreferredSize(new Dimension((this.getWidth()/3) - 5, panelHeight));
-				
 				JButton imageButton = new JButton(new ImageIcon(scaledImage));
 				imageButton.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -74,16 +77,25 @@ public class Canvas extends JPanel implements Observer {
 					}
 				});
 				panel.add(imageButton);
+				imageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 				JLabel nameLabel = new JLabel(imageObject.getFile().getName());
+				nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 				panel.add(nameLabel);
 				JLabel dateLabel = new JLabel(new Date(imageObject.getFile().lastModified()).toString());
+				dateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 				panel.add(dateLabel);
 				ArrayList<JButton> starButtonArray = new ArrayList<JButton>();
+				JPanel starPanel = new JPanel();
 				JButton star1 = new JButton();
 				JButton star2 = new JButton();
 				JButton star3 = new JButton();
 				JButton star4 = new JButton();
 				JButton star5 = new JButton();
+				starPanel.add(star1);
+				starPanel.add(star2);
+				starPanel.add(star3);
+				starPanel.add(star4);
+				starPanel.add(star5);
 				starButtonArray.add(star1);
 				starButtonArray.add(star2);
 				starButtonArray.add(star3);
@@ -101,7 +113,6 @@ public class Canvas extends JPanel implements Observer {
 						model.setImageFiles(model.getImageFiles());
 					}
 				});
-				panel.add(star1);
 				star2.setPreferredSize(new Dimension(25, 25));
 				star2.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -114,7 +125,6 @@ public class Canvas extends JPanel implements Observer {
 						model.setImageFiles(model.getImageFiles());
 					}
 				});
-				panel.add(star2);
 				star3.setPreferredSize(new Dimension(25, 25));
 				star3.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -127,7 +137,6 @@ public class Canvas extends JPanel implements Observer {
 						model.setImageFiles(model.getImageFiles());
 					}
 				});
-				panel.add(star3);
 				star4.setPreferredSize(new Dimension(25, 25));
 				star4.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -140,7 +149,6 @@ public class Canvas extends JPanel implements Observer {
 						model.setImageFiles(model.getImageFiles());
 					}
 				});
-				panel.add(star4);
 				star5.setPreferredSize(new Dimension(25, 25));
 				star5.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -153,7 +161,8 @@ public class Canvas extends JPanel implements Observer {
 						model.setImageFiles(model.getImageFiles());
 					}
 				});
-				panel.add(star5);
+				starPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panel.add(starPanel);
 				try {
 					Image emptyStar = ImageIO.read(new File("src/images/star-empty.png"));
 					Image fullStar = ImageIO.read(new File("src/images/star-full.png"));
@@ -178,6 +187,7 @@ public class Canvas extends JPanel implements Observer {
 				e.printStackTrace();
 			}
 		}
+		scrollPane.revalidate();
 		validate();
 		repaint();
 	}
@@ -195,17 +205,15 @@ public class Canvas extends JPanel implements Observer {
 			else {
 				cols = 1;
 			}
-			System.out.println(cols);
-			int rows = panelArray.size() / cols;
+			int rows = (int)Math.ceil((double)panelArray.size() / (double)cols);
 			if (panelArray != null) {
 				for (int i = 0; i < panelArray.size(); i++) {
 					JPanel panel = panelArray.get(i);
 					panel.setPreferredSize(new Dimension(width/cols - 5, panelHeight));
 				}
 			}
-			this.setPreferredSize(new Dimension(width, rows * panelHeight + rows * 5));
+			this.setPreferredSize(new Dimension(width, (rows * panelHeight) + (rows * 5)));
 			scrollPane.revalidate();
-			validate();
 		}
 	}
 	
