@@ -2,6 +2,12 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -38,6 +44,25 @@ public class PhotoRanking extends JFrame {
 						model.resized(frame.getWidth(), frame.getHeight());
 					}
 				});
+				
+				frame.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						model.save();
+					}
+				});
+				
+				File file = new File(System.getProperty("user.dir") + "/storage.bin");
+				if (file.exists()) {
+					try {
+						FileInputStream fileIn = new FileInputStream(file);
+						ObjectInputStream in = new ObjectInputStream(fileIn);
+						BinaryModel bin = (BinaryModel)in.readObject();
+						model.setImageFiles(bin.imageFiles);
+					} catch (IOException | ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 	}

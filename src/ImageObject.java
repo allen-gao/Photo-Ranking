@@ -1,6 +1,7 @@
 import java.io.File;
+import java.io.Serializable;
 
-public class ImageObject {
+public class ImageObject implements Serializable {
 	private File file;
 	private int rating;
 	

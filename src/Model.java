@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -62,4 +66,20 @@ public class Model extends Observable {
 	public void resized(int width, int height) {
 		canvas.resizePanels(width, height);
 	}
+	
+	public void save() {
+		try {
+			BinaryModel bin = new BinaryModel();
+			bin.imageFiles = this.imageFiles;
+			System.out.println(System.getProperty("user.dir"));
+			FileOutputStream fileOut = new FileOutputStream(System.getProperty("user.dir") + "/storage.bin");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(bin);
+			out.close();
+			fileOut.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		}
 }
